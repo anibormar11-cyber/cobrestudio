@@ -6,7 +6,7 @@ const geist = Geist({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Cobre Studio — Productos digitales para autónomos',
-  description: 'Somos Cobre Studio, un pequeño estudio digital especializado en crear productos útiles para freelancers y autónomos.',
+  description: 'Somos Cobre Studio, un pequeño estudio digital especializado en crear productos útiles para freelancers y autónomos. Contacto: cobreestudio@gmail.com',
   openGraph: {
     title: 'Cobre Studio',
     description: 'Productos digitales para autónomos y freelancers.',
