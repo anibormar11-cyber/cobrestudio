@@ -28,6 +28,8 @@ const sections = [
   },
 ]
 
+export const metadata = { robots: { index: false, follow: false } }
+
 export default function PrivacyPage() {
   return (
     <div className="min-h-screen bg-[#07070f] text-white">

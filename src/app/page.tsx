@@ -81,7 +81,30 @@ export default function Home() {
     return () => clearTimeout(delay)
   }, [])
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Cobre Studio',
+    url: 'https://cobrestudio.vercel.app',
+    email: 'cobreestudio@gmail.com',
+    description: 'Estudio digital especializado en productos SaaS para autónomos y freelancers.',
+    foundingDate: '2025',
+    knowsAbout: ['SaaS', 'Desarrollo web', 'Productos digitales', 'Facturación para autónomos'],
+    makesOffer: {
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'SoftwareApplication',
+        name: 'Cobre',
+        url: 'https://cobre-rho.vercel.app',
+        applicationCategory: 'BusinessApplication',
+        description: 'App de facturación gratuita para autónomos y freelancers.',
+      },
+    },
+  }
+
   return (
+    <>
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
     <div className="min-h-screen bg-[#07070f] text-white overflow-x-hidden">
 
       {/* Cursor glow */}
@@ -352,5 +375,6 @@ export default function Home() {
         @keyframes fadeUp { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
       `}</style>
     </div>
+    </>
   )
 }
