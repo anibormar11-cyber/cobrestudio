@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { ArrowRight, Coins, Zap, Code2, Layers, Mail, ExternalLink, Terminal } from 'lucide-react'
+import Link from 'next/link'
 
 // ── Tilt 3D card ────────────────────────────────────────────────────────────
 function TiltCard({ children, className = '' }: { children: React.ReactNode; className?: string }) {
@@ -334,6 +335,11 @@ export default function Home() {
             <span className="text-sm font-semibold text-gray-600">Cobre Studio</span>
           </div>
           <p className="text-xs text-gray-700">© {new Date().getFullYear()} Cobre Studio. Hecho con cuidado.</p>
+          <div className="flex items-center gap-4">
+            <Link href="/privacy" className="text-xs text-gray-700 hover:text-gray-400 transition-colors">Privacidad</Link>
+            <span className="text-gray-700">·</span>
+            <Link href="/terms" className="text-xs text-gray-700 hover:text-gray-400 transition-colors">Aviso legal</Link>
+          </div>
         </div>
       </footer>
 
