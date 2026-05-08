@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { ArrowRight, Coins, Zap, Code2, Layers, Mail, ExternalLink, Terminal } from 'lucide-react'
 import Link from 'next/link'
+import ContactForm from '@/components/ContactForm'
 
 // ── Tilt 3D card ────────────────────────────────────────────────────────────
 function TiltCard({ children, className = '' }: { children: React.ReactNode; className?: string }) {
@@ -340,10 +341,7 @@ export default function Home() {
             </div>
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">¿Tienes algo en mente?</h2>
             <p className="text-gray-500 mb-10 text-lg leading-relaxed">Cuéntanos qué quieres construir. Somos directos y respondemos rápido.</p>
-            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=cobreestudio@gmail.com" target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 bg-white text-gray-900 px-8 py-4 rounded-xl font-bold hover:bg-gray-100 transition-all hover:scale-105 hover:shadow-2xl hover:shadow-white/8 text-base">
-              cobreestudio@gmail.com <ArrowRight size={16} />
-            </a>
+            <ContactForm />
           </div>
         </Reveal>
       </section>
