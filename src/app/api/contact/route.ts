@@ -3,17 +3,57 @@ import { Resend } from 'resend'
 
 export const runtime = 'nodejs'
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;')
+}
+
 export async function POST(req: NextRequest) {
-  const { name, email, message } = await req.json()
-  if (!name || !email || !message) {
+  let body: unknown
+  try {
+    body = await req.json()
+  } catch {
+    return NextResponse.json({ error: 'Petición inválida' }, { status: 400 })
+  }
+
+  const { name, email, message } = body as Record<string, unknown>
+
+  if (typeof name !== 'string' || typeof email !== 'string' || typeof message !== 'string') {
     return NextResponse.json({ error: 'Todos los campos son obligatorios' }, { status: 400 })
   }
+
+  const trimName = name.trim()
+  const trimEmail = email.trim().toLowerCase()
+  const trimMessage = message.trim()
+
+  if (!trimName || !trimEmail || !trimMessage) {
+    return NextResponse.json({ error: 'Todos los campos son obligatorios' }, { status: 400 })
+  }
+  if (trimName.length > 100) {
+    return NextResponse.json({ error: 'Nombre demasiado largo' }, { status: 400 })
+  }
+  if (!EMAIL_RE.test(trimEmail) || trimEmail.length > 254) {
+    return NextResponse.json({ error: 'Email no válido' }, { status: 400 })
+  }
+  if (trimMessage.length > 2000) {
+    return NextResponse.json({ error: 'Mensaje demasiado largo (máx. 2000 caracteres)' }, { status: 400 })
+  }
+
+  const safeName = escapeHtml(trimName)
+  const safeEmail = escapeHtml(trimEmail)
+  const safeMessage = escapeHtml(trimMessage)
 
   const resend = new Resend(process.env.RESEND_API_KEY)
   const { error } = await resend.emails.send({
     from: process.env.RESEND_FROM_EMAIL ?? 'onboarding@resend.dev',
     to: 'cobreestudio@gmail.com',
-    subject: `Nuevo mensaje de ${name} — Cobre Studio`,
+    subject: `Nuevo mensaje de ${safeName} — Cobre Studio`,
     html: `
       <div style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:32px;color:#1f2937;">
         <div style="background:#07070f;border-radius:12px;padding:20px 24px;margin-bottom:24px;display:flex;align-items:center;gap:10px;">
@@ -24,16 +64,16 @@ export async function POST(req: NextRequest) {
         </div>
         <h2 style="font-size:20px;font-weight:700;margin-bottom:16px;">Nuevo mensaje de contacto</h2>
         <table style="width:100%;border-collapse:collapse;margin-bottom:20px;">
-          <tr><td style="padding:6px 0;color:#6b7280;font-size:14px;width:80px;">Nombre</td><td style="padding:6px 0;font-weight:600;">${name}</td></tr>
-          <tr><td style="padding:6px 0;color:#6b7280;font-size:14px;">Email</td><td style="padding:6px 0;"><a href="mailto:${email}" style="color:#6366f1;">${email}</a></td></tr>
+          <tr><td style="padding:6px 0;color:#6b7280;font-size:14px;width:80px;">Nombre</td><td style="padding:6px 0;font-weight:600;">${safeName}</td></tr>
+          <tr><td style="padding:6px 0;color:#6b7280;font-size:14px;">Email</td><td style="padding:6px 0;"><a href="mailto:${safeEmail}" style="color:#6366f1;">${safeEmail}</a></td></tr>
         </table>
-        <div style="background:#f9fafb;border-radius:10px;padding:16px;font-size:15px;line-height:1.6;color:#374151;white-space:pre-line;">${message}</div>
+        <div style="background:#f9fafb;border-radius:10px;padding:16px;font-size:15px;line-height:1.6;color:#374151;white-space:pre-line;">${safeMessage}</div>
         <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;">
         <p style="color:#9ca3af;font-size:12px;">Enviado desde cobrestudio.vercel.app</p>
       </div>
     `,
   })
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  if (error) return NextResponse.json({ error: 'Error al enviar el mensaje' }, { status: 500 })
   return NextResponse.json({ ok: true })
 }
