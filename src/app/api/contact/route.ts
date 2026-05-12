@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
+import { contactRatelimit } from '@/lib/ratelimit'
 
 export const runtime = 'nodejs'
 
@@ -15,6 +16,12 @@ function escapeHtml(str: string): string {
 }
 
 export async function POST(req: NextRequest) {
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'anonymous'
+  const { success } = await contactRatelimit.limit(ip)
+  if (!success) {
+    return NextResponse.json({ error: 'Demasiadas solicitudes. Inténtalo más tarde.' }, { status: 429 })
+  }
+
   let body: unknown
   try {
     body = await req.json()
