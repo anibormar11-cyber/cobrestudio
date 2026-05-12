@@ -82,41 +82,8 @@ export default function Home() {
     return () => clearTimeout(delay)
   }, [])
 
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: 'Cobre Studio',
-    url: 'https://cobrestudio.vercel.app',
-    email: 'cobreestudio@gmail.com',
-    description: 'Estudio digital especializado en productos SaaS para autónomos y freelancers.',
-    foundingDate: '2025',
-    knowsAbout: ['SaaS', 'Desarrollo web', 'Productos digitales', 'Facturación para autónomos'],
-    makesOffer: [
-      {
-        '@type': 'Offer',
-        itemOffered: {
-          '@type': 'SoftwareApplication',
-          name: 'Cobre',
-          url: 'https://cobre-rho.vercel.app',
-          applicationCategory: 'BusinessApplication',
-          description: 'App de facturación gratuita para autónomos y freelancers.',
-        },
-      },
-      {
-        '@type': 'Offer',
-        itemOffered: {
-          '@type': 'WebSite',
-          name: 'LUD Doméstica',
-          url: 'https://luddomestica.vercel.app',
-          description: 'Web corporativa para tienda de electrodomésticos con catálogo y gestión de productos.',
-        },
-      },
-    ],
-  }
-
   return (
     <>
-    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
     <div className="min-h-screen bg-[#07070f] text-white overflow-x-hidden">
 
       {/* Cursor glow */}
@@ -159,6 +126,7 @@ export default function Home() {
           </div>
 
           <h1 className="text-5xl sm:text-7xl lg:text-8xl font-extrabold leading-none mb-6 tracking-tight"
+            aria-label="Cobre Studio — Agencia de desarrollo SaaS y productos digitales en España"
             style={{ animation: 'fadeUp 0.6s ease 0.1s both' }}>
             Hacemos productos
             <br />
@@ -225,20 +193,20 @@ export default function Home() {
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
             {[
-              { icon: Code2, grad: 'from-indigo-600/15 to-transparent', border: 'border-indigo-500/15 hover:border-indigo-500/35', ic: 'bg-indigo-500/10 text-indigo-400', title: 'Desarrollo de producto', desc: 'Aplicaciones web y SaaS robustos, rápidos y escalables. Next.js, Supabase, Stripe, TypeScript.', tags: ['Next.js', 'TypeScript', 'Supabase'] },
-              { icon: Layers, grad: 'from-purple-600/15 to-transparent', border: 'border-purple-500/15 hover:border-purple-500/35', ic: 'bg-purple-500/10 text-purple-400', title: 'Diseño de interfaz', desc: 'Interfaces limpias e intuitivas. Obsesión por los detalles: tipografía, espaciado, microanimaciones.', tags: ['UI/UX', 'Figma', 'Tailwind'] },
-              { icon: Terminal, grad: 'from-emerald-600/15 to-transparent', border: 'border-emerald-500/15 hover:border-emerald-500/35', ic: 'bg-emerald-500/10 text-emerald-400', title: 'Agentes de IA', desc: 'Integramos IA generativa para automatizar tareas y ofrecer experiencias que sorprenden al usuario.', tags: ['Claude AI', 'Streaming', 'LLMs'] },
-            ].map(({ icon: Icon, grad, border, ic, title, desc, tags }, i) => (
+              { icon: Code2, grad: 'from-indigo-600/15 to-transparent', border: 'border-indigo-500/15 hover:border-indigo-500/35', ic: 'bg-indigo-500/10 text-indigo-400', title: 'Desarrollo de producto', desc: 'Aplicaciones web y SaaS robustos, rápidos y escalables. Next.js, Supabase, Stripe, TypeScript.', tags: ['Next.js', 'TypeScript', 'Supabase'], href: '/servicios/desarrollo-saas' },
+              { icon: Layers, grad: 'from-purple-600/15 to-transparent', border: 'border-purple-500/15 hover:border-purple-500/35', ic: 'bg-purple-500/10 text-purple-400', title: 'Diseño de interfaz', desc: 'Interfaces limpias e intuitivas. Obsesión por los detalles: tipografía, espaciado, microanimaciones.', tags: ['UI/UX', 'Figma', 'Tailwind'], href: '/servicios/diseno-ux' },
+              { icon: Terminal, grad: 'from-emerald-600/15 to-transparent', border: 'border-emerald-500/15 hover:border-emerald-500/35', ic: 'bg-emerald-500/10 text-emerald-400', title: 'Agentes de IA', desc: 'Integramos IA generativa para automatizar tareas y ofrecer experiencias que sorprenden al usuario.', tags: ['Claude AI', 'Streaming', 'LLMs'], href: '/servicios/agentes-ia' },
+            ].map(({ icon: Icon, grad, border, ic, title, desc, tags, href }, i) => (
               <Reveal key={title} delay={i * 100}>
                 <TiltCard className="h-full">
-                  <div className={`h-full bg-gradient-to-b ${grad} border ${border} rounded-2xl p-6 transition-colors duration-300 cursor-default`}>
+                  <Link href={href} className={`h-full bg-gradient-to-b ${grad} border ${border} rounded-2xl p-6 transition-colors duration-300 flex flex-col`}>
                     <div className={`inline-flex p-3 rounded-xl mb-5 ${ic}`}><Icon size={19} /></div>
                     <h3 className="font-bold text-white text-base mb-3">{title}</h3>
                     <p className="text-sm text-gray-500 leading-relaxed mb-5">{desc}</p>
-                    <div className="flex flex-wrap gap-1.5">
+                    <div className="flex flex-wrap gap-1.5 mt-auto">
                       {tags.map(t => <span key={t} className="text-xs bg-white/4 text-gray-500 border border-white/6 px-2.5 py-1 rounded-lg">{t}</span>)}
                     </div>
-                  </div>
+                  </Link>
                 </TiltCard>
               </Reveal>
             ))}
