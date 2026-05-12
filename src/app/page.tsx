@@ -91,16 +91,27 @@ export default function Home() {
     description: 'Estudio digital especializado en productos SaaS para autónomos y freelancers.',
     foundingDate: '2025',
     knowsAbout: ['SaaS', 'Desarrollo web', 'Productos digitales', 'Facturación para autónomos'],
-    makesOffer: {
-      '@type': 'Offer',
-      itemOffered: {
-        '@type': 'SoftwareApplication',
-        name: 'Cobre',
-        url: 'https://cobre-rho.vercel.app',
-        applicationCategory: 'BusinessApplication',
-        description: 'App de facturación gratuita para autónomos y freelancers.',
+    makesOffer: [
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'SoftwareApplication',
+          name: 'Cobre',
+          url: 'https://cobre-rho.vercel.app',
+          applicationCategory: 'BusinessApplication',
+          description: 'App de facturación gratuita para autónomos y freelancers.',
+        },
       },
-    },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'WebSite',
+          name: 'LUD Doméstica',
+          url: 'https://luddomestica.vercel.app',
+          description: 'Web corporativa para tienda de electrodomésticos con catálogo y gestión de productos.',
+        },
+      },
+    ],
   }
 
   return (
@@ -183,8 +194,8 @@ export default function Home() {
       <section className="border-y border-white/5 bg-white/[0.02] py-12 px-6">
         <div className="max-w-2xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
           <Reveal>
-            <p className="text-3xl sm:text-4xl font-extrabold text-white mb-1"><Counter to={1} /></p>
-            <p className="text-xs text-gray-600">Producto propio en producción</p>
+            <p className="text-3xl sm:text-4xl font-extrabold text-white mb-1"><Counter to={2} /></p>
+            <p className="text-xs text-gray-600">Productos en producción</p>
           </Reveal>
           <Reveal delay={100}>
             <p className="text-3xl sm:text-4xl font-extrabold text-white mb-1 text-transparent bg-clip-text"
@@ -280,8 +291,33 @@ export default function Home() {
           </Reveal>
 
           <Reveal delay={200}>
-            <div className="mt-4 border border-dashed border-white/6 rounded-2xl py-10 text-center">
-              <p className="text-gray-700 text-sm">Más productos en camino ✦</p>
+            <div className="mt-4 border border-blue-500/15 hover:border-blue-500/30 bg-gradient-to-b from-blue-600/8 to-transparent rounded-3xl p-8 sm:p-10 transition-colors duration-300">
+              <div className="flex flex-col sm:flex-row items-start gap-8">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl flex items-center justify-center shrink-0 shadow-lg shadow-blue-900/60 text-2xl font-extrabold text-white select-none" style={{ animation: 'float 4s ease-in-out infinite' }}>
+                  L
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-3">
+                    <h3 className="text-2xl font-bold">LUD Doméstica</h3>
+                    <span className="text-xs bg-emerald-500/10 text-emerald-400 px-2.5 py-0.5 rounded-full font-semibold border border-emerald-500/20">
+                      ● En producción
+                    </span>
+                  </div>
+                  <p className="text-gray-400 leading-relaxed mb-1 max-w-xl">
+                    Web corporativa para tienda de electrodomésticos. Catálogo dinámico con Supabase, animaciones SVG, filosofía de marca y optimización SEO completa.
+                  </p>
+                  <p className="text-xs text-gray-600 mb-5">Limpio, Útil y Duradero.</p>
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {['Next.js', 'Supabase', 'Tailwind CSS', 'Puppeteer', 'SEO'].map(t => (
+                      <span key={t} className="text-xs bg-white/4 text-gray-400 border border-white/8 px-3 py-1.5 rounded-xl">{t}</span>
+                    ))}
+                  </div>
+                  <a href="https://luddomestica.vercel.app" target="_blank" rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-blue-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl hover:bg-blue-600 transition-all hover:scale-105 hover:shadow-lg hover:shadow-blue-900/50">
+                    Ver proyecto <ExternalLink size={13} />
+                  </a>
+                </div>
+              </div>
             </div>
           </Reveal>
         </div>
